@@ -1,0 +1,13 @@
+language: python
+python:
+  - 2.6
+  - 2.7
+  - 3.4
+  - 3.5
+  - 3.6
+install: pip install -r test_requirements.txt
+script: nosetests -v -w tests/ --logging-filter="onesignal" --with-cov --cov onesignal --cov-config .coveragerc --cov-report term-missing
+notifications:
+  email: false
+after_success:
+  - coveralls
