@@ -39,6 +39,19 @@ class OneSignal(object):
     def __repr__(self):
         return '<OneSignal: %s>' % (self.api_key)
 
+    def construct_api_url(self, url):
+        """Construct an api url, either use a full url if provided or construct
+        url from self.api_url plus the partial url passed (i.e. "players/id")
+
+        :param url: Either a full OneSignal REST API url or a portion (i.e. "players/id").
+
+        :rtype: str
+        """
+        if not url.startswith('https://'):
+            url = '%s/%s' % (self.api_url, url)
+
+        return url
+
     def request(self, method, url, **data):
         """Make a request to OneSignal's REST API.
 
@@ -48,9 +61,7 @@ class OneSignal(object):
 
         :rtype: dict
         """
-        # if the url doesn't start with a protocol, join the "url" and self.api_url
-        if not url.startswith('https://'):
-            url = '%s/%s' % (self.api_url, url)
+        url = self.construct_api_url(url)
 
         return self._request(method, url, **data)
 
