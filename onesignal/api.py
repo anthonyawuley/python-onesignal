@@ -121,14 +121,11 @@ class OneSignal(object):
         else:
             response_kwargs['params'] = payload
 
-        print 'resposne_kwargs', response_kwargs
-
         func = getattr(self.client, method)
 
         response = func(url, **response_kwargs)
 
         try:
-            print 'resposne.text', response.text
             content = response.json()
         except ValueError:
             raise OneSignalApiError('There was an error decoding the response, it was not JSON.')
